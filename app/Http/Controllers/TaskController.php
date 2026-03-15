@@ -12,8 +12,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $task = Task::latest()->get();
-        return view('tasks.index', compact('task'));
+        $tasks = Task::latest()->get();
+        return view('tasks.index', compact('tasks'));
     }
 
     /**
@@ -54,6 +54,7 @@ class TaskController extends Controller
      */
     public function edit(string $id)
     {
+        $task = Task::findOrFail($id);
         return view('tasks.edit', compact('task'));
     }
 
