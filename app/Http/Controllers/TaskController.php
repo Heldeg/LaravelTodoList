@@ -59,6 +59,7 @@ class TaskController extends Controller
     public function edit(string $id)
     {
         $task = Task::findOrFail($id);
+        $this->authorize('update', $task);
         return view('tasks.edit', compact('task'));
     }
 
@@ -75,6 +76,7 @@ class TaskController extends Controller
         ]);
 
         $task = Task::findOrFail($id);
+        $this->authorize('update', $task);
         $task->update($validated);
 
         return redirect()->route('tasks.index')->with('success', 'Task updated successfully.');
@@ -86,6 +88,7 @@ class TaskController extends Controller
     public function destroy(string $id)
     {
         $task = Task::findOrFail($id);
+        $this->authorize('delete', $task);
         $task->delete();
 
         return redirect()->route('tasks.index')->with('success', 'Task deleted successfully.');

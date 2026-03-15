@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\TaskController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -14,7 +15,14 @@ Route::get('/home', function () {
 })->name('home');
 
 Route::middleware('auth')->group(function () {
-    Route::resource('tasks', App\Http\Controllers\TaskController::class);
+    
+
+    Route::middleware('role:admin|editor')->group(function () {
+        Route::resource('tasks', TaskController::class)->except(['index', 'show']);
+    });
+    Route::resource('tasks', TaskController::class)->only(['index', 'show']);
+
+
 });
 
 // CRUD routes  test for tasks
