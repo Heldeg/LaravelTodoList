@@ -10,6 +10,10 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $tasks = Task::latest()->get();
@@ -35,7 +39,7 @@ class TaskController extends Controller
             'completed' => 'boolean|nullable',
         ]);
 
-        Task::create($validated);
+        $request->user()->tasks()->create($validated);
 
         return redirect()->route('tasks.index')->with('success', 'Task created successfully.');
     }

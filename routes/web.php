@@ -9,9 +9,17 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::resource('tasks', App\Http\Controllers\TaskController::class);
-Route::get('/',function(){
+Route::get('/home', function () {
     return redirect()->route('tasks.index');
+})->name('home');
+
+Route::middleware('auth')->group(function () {
+    Route::resource('tasks', App\Http\Controllers\TaskController::class);
 });
+
+// CRUD routes  test for tasks
+/*Route::get('/',function(){
+    return redirect()->route('tasks.index');
+});*/
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
