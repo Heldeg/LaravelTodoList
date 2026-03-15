@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\TaskController;
@@ -23,6 +24,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('tasks', TaskController::class)->only(['index', 'show']);
 
 
+});
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
 });
 
 // CRUD routes  test for tasks
